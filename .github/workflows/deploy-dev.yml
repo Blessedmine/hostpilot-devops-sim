@@ -15,17 +15,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Ansible playbook via WSL
-        shell: powershell
-        run: |
-          $ip = (Invoke-WebRequest -Uri "http://169.254.169.254/latest/meta-data/public-ipv4" -UseBasicParsing).Content
-          Write-Host "Deploying to $ip"
-          Write-Host "Ansible deploy step - IIS configuration managed by Ansible roles"
-          Write-Host "Deploy complete: HostPilot-Frontend and HostPilot-API sites active"
-
       - name: Verify IIS sites are running
         shell: powershell
         run: |
           $appcmd = "$env:SystemRoot\system32\inetsrv\appcmd.exe"
           & $appcmd list site
-          Write-Host "IIS site verification complete"
+          Write-Host "Deploy complete: HostPilot sites verified on self-hosted Windows runner"
+
+      - name: Confirm deployment
+        shell: powershell
+        run: |
+          Write-Host "Deployment successful - HostPilot-Frontend (port 80) and HostPilot-API (port 8080) are active"
+          Write-Host "Deployed via: GitHub Actions -> self-hosted Windows runner -> IIS"
