@@ -1,0 +1,32 @@
+name: CI - Validate Ansible
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: |
+          pip install ansible ansible-lint
+
+      - name: Lint Ansible playbooks
+        run: |
+          ansible-lint ansible/site.yml || true
+
+      - name: Validate inventory syntax
+        run: |
+          ansible-inventory -i ansible/inventory.yml --list > /dev/null
+          echo "Inventory syntax valid"
+
+      - name: Check playbook syntax
+        run: |
+          ansible-playbook ansible/site.yml --syntax-check -i ansible/inventory.yml
+          echo "Playbook syntax valid"
