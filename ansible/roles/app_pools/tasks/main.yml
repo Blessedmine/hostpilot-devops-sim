@@ -1,0 +1,29 @@
+---
+- name: Create HostPilot-Frontend app pool
+  ansible.windows.win_shell: |
+    $appcmd = "$env:SystemRoot\system32\inetsrv\appcmd.exe"
+    $pool = & $appcmd list apppool "HostPilot-Frontend"
+    if (-not $pool) {
+      & $appcmd add apppool /name:"HostPilot-Frontend"
+    }
+  changed_when: false
+
+- name: Create HostPilot-API app pool
+  ansible.windows.win_shell: |
+    $appcmd = "$env:SystemRoot\system32\inetsrv\appcmd.exe"
+    $pool = & $appcmd list apppool "HostPilot-API"
+    if (-not $pool) {
+      & $appcmd add apppool /name:"HostPilot-API"
+    }
+  changed_when: false
+
+- name: Verify app pools exist
+  ansible.windows.win_shell: |
+    $appcmd = "$env:SystemRoot\system32\inetsrv\appcmd.exe"
+    & $appcmd list apppool
+  register: apppool_list
+  changed_when: false
+
+- name: Show app pools
+  ansible.builtin.debug:
+    var: apppool_list.stdout_lines

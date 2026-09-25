@@ -1,0 +1,11 @@
+all:
+  hosts:
+    windows_vm:
+      ansible_host: 44.213.119.77
+      ansible_user: Administrator
+      ansible_password: "TTmvFXNGXqBNy5YpBo*K$u@PCXL6B4fw"
+      ansible_connection: winrm
+      ansible_winrm_transport: basic
+      ansible_winrm_port: 5985
+      ansible_winrm_scheme: http
+      ansible_winrm_server_cert_validation: ignore

@@ -1,0 +1,9 @@
+---
+- name: HostPilot DevOps Simulation - Full IIS Setup
+  hosts: windows_vm
+  gather_facts: yes
+
+  roles:
+    - iis_setup
+    - app_pools
+    - iis_sites
