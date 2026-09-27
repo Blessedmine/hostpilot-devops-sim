@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpilot-api
+  labels:
+    app: hostpilot-api
+spec:
+  containers:
+  - name: iis-app
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+  - name: log-sidecar
+    image: busybox
+    command: ['sh', '-c', 'while true; do echo "[sidecar] HostPilot API heartbeat OK"; sleep 10; done']
